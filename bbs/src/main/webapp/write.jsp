@@ -9,9 +9,16 @@
 
 </head>
 <body>
+	<%
+		//로그인상태 확인
+		String userID = null;
+		if(session.getAttribute("userID") != null){
+			userID=(String)session.getAttribute("userID");
+		}
+	%>
 	<section class="wrap">
-		<!-- 공통 영역 -->
-			<header>
+		<!-- 공통 영역  -->
+		<header>
 			<nav class="navbar navbar-default">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed"
@@ -33,43 +40,46 @@
 							<a href="#" class="dropdown-toggle"
 								data-toggle="dropdown" role="button" aria-haspopup="true"
 								aria-expanded="false">접속하기<span class="caret"></span></a>
-								
+							<%
+							if(userID == null){
+							%>	
 							<ul class="dropdown-menu">
 								<li class="active"><a href="./login.jsp">로그인</a></li>
 								<li><a href="./join.jsp">회원가입</a></li>
 							</ul>
-							
-							<ul class="dropdown-menu" style="display:none">
-								<li class="active"><a href="./logoutAction.jsp">로그아웃</a></li>
+							<%}else{ %>
+							<ul class="dropdown-menu">
+								<li class="active"><a href="./logoutAction.jsp">로그아웃</a></li>								
 							</ul>
+							<%} %>
 						</li>
 					</ul>
 				</div>
 			</nav>
 		</header>
-		
+	
+	
 		<!-- 페이지별 컨텐츠 영역 시작 -->
 		<section>
-		
 			<!-- 로그인 양식 -->
 			<div class="container">
 				<div class="col-lg-12">
-					<div class="jumbotron" style="margin-top:20px; padding-top:30px">
-						<form method="post" action="./loginAction.jsp">
-							<h2 style="text-align:center">로그인 화면</h2>
+					<div class="jumbotron" style="margin-top:20px;padding-top:30px">
+						<form method="post" action="./writeAction.jsp">
+							<h2 style="text-align:center">글쓰기 양식</h2>		
 							<div class="form-group">
-								<input type="text" placeholder="아이디" class="form-control" name="userID">
+								<input type="text" placeholder="제목" class="form-control" name="bbsTitle">
 							</div>
 							<div class="form-group">
-								<input type="password" placeholder="패스워드" class="form-control" name="userPassword">
+								<input type="text" placeholder="글내용" class="form-control" name="bbsContent">
 							</div>
-							<input type="submit" value="로그인" class="btn btn-primary form-control">
-
+							<input type="submit" value="글저장" class="btn btn-primary form-control">
 						</form>
 					</div>
-				</div>	
+				</div>
 			</div>
 		</section>
+		
 	</section>
 	
 	

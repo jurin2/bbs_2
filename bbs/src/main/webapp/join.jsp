@@ -10,8 +10,8 @@
 </head>
 <body>
 	<section class="wrap">
-		<!-- 공통 영역 -->
-			<header>
+		<!-- 공통 영역  -->
+		<header>
 			<nav class="navbar navbar-default">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed"
@@ -40,23 +40,23 @@
 							</ul>
 							
 							<ul class="dropdown-menu" style="display:none">
-								<li class="active"><a href="./logoutAction.jsp">로그아웃</a></li>
+								<li class="active"><a href="./logoutAction.jsp">로그아웃</a></li>								
 							</ul>
 						</li>
 					</ul>
 				</div>
 			</nav>
 		</header>
-		
+	
+	
 		<!-- 페이지별 컨텐츠 영역 시작 -->
 		<section>
-		
 			<!-- 로그인 양식 -->
 			<div class="container">
 				<div class="col-lg-12">
-					<div class="jumbotron" style="margin-top:20px; padding-top:30px">
+					<div class="jumbotron" style="margin-top:20px;padding-top:30px">
 						<form method="post" action="./joinAction.jsp">
-							<h2 style="text-align:center">회원가입</h2>
+							<h2 style="text-align:center">회원가입</h2>		
 							<div class="form-group">
 								<input type="text" placeholder="아이디" class="form-control" name="userID">
 							</div>
@@ -64,10 +64,10 @@
 								<input type="password" placeholder="패스워드" class="form-control" name="userPassword">
 							</div>
 							<div class="form-group">
-								<input type="text" placeholder="이름" class="form-control" name="userName">
+								<input type="text" placeholder="성명" class="form-control" name="userName">
 							</div>
 							<div class="form-group" style="text-align:center">
-								<label class="btn btn-primary">
+								<label class="btn btn-primary">								
 									<input type="radio" name="userGender" value="남" checked> 남자
 								</label>
 								<label class="btn btn-primary">
@@ -76,17 +76,15 @@
 								
 							</div>
 							<div class="form-group">
-								<input type="email" placeholder="이메일" class="form-control" name="userEmail">
+								<input type="email" placeholder="이매일" class="form-control" name="userEmail">
 							</div>
 							<input type="submit" value="회원가입" class="btn btn-primary form-control">
-
 						</form>
 					</div>
-				</div>	
+				</div>
 			</div>
 		</section>
 		
-		</header>
 	</section>
 	
 	

@@ -41,32 +41,33 @@
 			script.println("alert('로그인 상태 입니다.')");
 			script.println("location.href='./main.jsp'");
 			script.println("</script>");
-		}
+		}else{
 		
 	
-		//입력자료 확인
-		if(user.getUserID() == null || user.getUserPassword() == null || user.getUserName() == null || user.getUserGender() == null || user.getUserEmail() == null){
-			script.println("<script>");
-			script.println("alert('가입정보를 확인하세요')");
-			script.println("history.back()");
-			script.println("</script>");
-		}else{
-	
-			UserDAO userDAO = new UserDAO();
-			
-			int result = userDAO.join(user.getUserID(),user.getUserPassword(),user.getUserName(),user.getUserGender(),user.getUserEmail());
-			script.println("<script>");
-			
-			if(result == -1){
-				script.println("alert('가입실패)");
+			//입력자료 확인
+			if(user.getUserID() == null || user.getUserPassword() == null || user.getUserName() == null || user.getUserGender() == null || user.getUserEmail() == null){
+				script.println("<script>");
+				script.println("alert('가입정보를 확인하세요')");
 				script.println("history.back()");
+				script.println("</script>");
 			}else{
-				session.setAttribute("userID",user.getUserID());
-				script.println("alert('가입 성공')");
-				script.println("location.href='./main.jsp'");
+		
+				UserDAO userDAO = new UserDAO();
+				
+				int result = userDAO.join(user.getUserID(),user.getUserPassword(),user.getUserName(),user.getUserGender(),user.getUserEmail());
+				script.println("<script>");
+				
+				if(result == -1){
+					script.println("alert('가입실패)");
+					script.println("history.back()");
+				}else{
+					session.setAttribute("userID",user.getUserID());
+					script.println("alert('가입 성공')");
+					script.println("location.href='./main.jsp'");
+				}
+				
+				script.println("</script>");
 			}
-			
-			script.println("</script>");
 		}
 		
 	%>
