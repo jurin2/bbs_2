@@ -118,5 +118,81 @@ public class BbsDAO {
 		
 	}
 	
+	// 문서 읽기
+	public Bbs getBbs(int bbsID) {
+		String SQL = "SELECT * FROM bbs WHERE bbsID = ?";
+		try {
+			PreparedStatement pstmt=conn.prepareStatement(SQL);
+			pstmt.setInt(1, bbsID);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				Bbs bbs = new Bbs();
+				bbs.setBbsID(rs.getInt(1));
+				bbs.setBbsTitle(rs.getString(2));
+				bbs.setUserID(rs.getString(3));
+				bbs.setBbsDate(rs.getString(4));
+				bbs.setBbsContent(rs.getString(5));
+				bbs.setBbsAvailable(rs.getInt(6));
+				return bbs;
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	//글수정 메소드
+	public int update(String bbsTitle,String userID,String bbsContent,int bbsID) {
+		String SQL = "UPDATE bbs SET bbsTitle=?,bbsContent=? WHERE userID=? AND bbsID=?";
+		try {
+			PreparedStatement pstmt=conn.prepareStatement(SQL);
+			pstmt.setString(1, bbsTitle);
+			pstmt.setString(2, bbsContent);
+			pstmt.setString(3, userID);
+			pstmt.setInt(4, bbsID);
+			return pstmt.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;//데이터베이스 오류
+	}
 	
+	//글삭제 메소드
+	public int delete(String userID, int bbsID) {
+		String SQL = "DELETE FROM bbs WHERE userID=? AND bbsID=?";
+		try {
+			PreparedStatement pstmt=conn.prepareStatement(SQL);
+			pstmt.setInt(1, bbsID);
+			pstmt.setString(2, userID);
+			return pstmt.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;//데이터베이스 오류
+	}
+	
+	//글가짜 삭제 메소드
+		public int delete2(String userID,int bbsID) {
+			String SQL = "UPDATE bbs SET bbsAvailable = 0 WHERE bbsID=? AND userID=?";
+			try {
+				
+				PreparedStatement pstmt=conn.prepareStatement(SQL);
+				pstmt.setInt(1, bbsID);
+				pstmt.setString(2, userID);			
+				return pstmt.executeUpdate();			
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			return -1;//데이터베이스 오류
+		}
+
 }
+
+
+
+
+
+
+
+
