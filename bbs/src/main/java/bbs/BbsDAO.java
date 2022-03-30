@@ -43,7 +43,7 @@ public class BbsDAO {
 	
 	//다음에 들어갈 문서번호 구하기
 	public int getNext() {
-		String SQL = "SELECT bbsID FROM bbs WHERE bbsAvailable=1 ORDER BY bbsID DESC";
+		String SQL = "SELECT bbsID FROM bbs ORDER BY bbsID DESC";
 		try {
 			PreparedStatement pstmt=conn.prepareStatement(SQL);
 			rs=pstmt.executeQuery();
@@ -75,32 +75,34 @@ public class BbsDAO {
 		}
 		return -1;//데이터베이스 오류
 	}
-	//record count
-	//public int rCount() {
-	//	String sql = "select * from bbs where bbsAvailable = 1";
-	//	try {
-	//		PreparedStatement pstmt = conn.prepareStatement(sql);
-	//		rs = pstmt.executeQuery();
-	//		int cnt=1;
-	//		while(rs.next()) {
-	//			cnt++;
-	//		}
-	//		return cnt;
-	//	}catch (Exception e) {
-	//		e.printStackTrace();
-	//	}
-	//	return -1;
-	//}
+	
+	//레코드의 개수
+	public int recordCount() {
+		String SQL = "SELECT * FROM bbs WHERE bbsAvailable=1";
+		try {
+			PreparedStatement pstmt=conn.prepareStatement(SQL);				
+			rs=pstmt.executeQuery();
+			int recordCount = 1;
+			while(rs.next()) {
+				recordCount++;
+			}
+			return recordCount;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
 	
 	//bbs목록 가져오기 메소드
 	public ArrayList<Bbs> getList(int pageNumber){
-		String SQL = "SELECT * FROM bbs WHERE bbsID<? AND bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
-              //String sql = "select * from bbs where bbsAvailable = 1 order by bbsID desc limit ?,10";
+		//String SQL = "SELECT * FROM bbs WHERE bbsID<? AND bbsAvailable = 1";
+		String SQL = "SELECT * FROM bbs WHERE bbsAvailable = 1 ORDER BY bbsID DESC LIMIT ?,10";                        
 		ArrayList<Bbs> list = new ArrayList<Bbs>();
 		try {
 			PreparedStatement pstmt=conn.prepareStatement(SQL);
-			pstmt.setInt(1, getNext() - (pageNumber-1)*10);
-	              //pstmt.setInt(1,rCount()-(rCount()-(pageNumber -1)*10));
+			//pstmt.setInt(1, getNext() - (pageNumber-1)*10);
+			pstmt.setInt(1, recordCount() - (recordCount()-(pageNumber-1)*10));
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
 				Bbs bbs = new Bbs();
@@ -121,11 +123,13 @@ public class BbsDAO {
 	
 	//페이지 처리 메서드
 	public boolean nextPage(int pageNumber) {
-		String SQL = "SELECT * FROM bbs WHERE bbsID<? AND bbsAvailable = 1";
+		//String SQL = "SELECT * FROM bbs WHERE bbsID<? AND bbsAvailable = 1";
+		String SQL = "SELECT * FROM bbs WHERE bbsAvailable = 1 ORDER BY bbsID DESC LIMIT ?,10";
+		
 		try {
 			PreparedStatement pstmt=conn.prepareStatement(SQL);
-			pstmt.setInt(1, getNext() - (pageNumber-1)*10);
-		      //pstmt.setInt(1, rCount() - (pageNumber-1)*10);
+			//pstmt.setInt(1, getNext() - (pageNumber-1)*10);
+			pstmt.setInt(1, recordCount() - (recordCount()-(pageNumber-1)*10));
 			rs=pstmt.executeQuery();
 			if(rs.next()) {
 				return true;
