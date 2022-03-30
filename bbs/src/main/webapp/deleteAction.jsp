@@ -5,14 +5,6 @@
 <% request.setCharacterEncoding("utf-8"); %><!-- 넘어온 한글자료 깨지지 않도록 -->
 
 
-<!-- class를 자바빈즈 사용함, 이름 id설정한 이름 -->
-<jsp:useBean id="bbs" class="bbs.Bbs" scope="page" />
-<!-- update 페이지에서 받아온 bbsTitle Bbs.bbsTitle에 저장 -->
-<jsp:setProperty name="bbs" property="bbsTitle" />
-<!-- update 페이지에서 받아온 bbsContent Bbs.bbsContent에 저장 -->
-<jsp:setProperty name="bbs" property="bbsContent" />
-<!-- update 페이지에서 받아온 bbsID Bbs.bbsID에 저장 -->
-<jsp:setProperty name="bbs" property="bbsID" /> 
 
     
 <!DOCTYPE html>
@@ -32,9 +24,18 @@
 		}
 		
 		//넘어온 bbsID를 초기화하고 request가 존재한다면 bbsID로 셋팅
-		int bbsID=0;
+		int bbsID = 0;
 		if(request.getParameter("bbsID") != null){
 			bbsID = Integer.parseInt(request.getParameter("bbsID"));
+		}
+		
+		
+		//존재하지않는 또는 잘못된 접근처리
+		if(bbsID == 0 ){
+			script.println("<script>");
+			script.println("alert('잘못된 접근입니다.')");
+			script.println("location.href='bbs.jsp'");
+			script.println("</script>");
 		}
 		
 		//로그인중일때 로그인방지
@@ -43,24 +44,24 @@
 			script.println("alert('로그인후 작성 가능합니다. 로그인페이지로 이동합니다.')");
 			script.println("location.href='./login.jsp'");
 			script.println("</script>");
-		}else{
+		}else{	
 			BbsDAO bbsDAO = new BbsDAO();
-			int result = bbsDAO.delete(userID,bbsID);
+			int result = bbsDAO.delete2(userID,bbsID);
 			//삭제오류
-			if(result == -1){
+			if(result == 1){
 				script.println("<script>");
-				script.println("alert('글삭제 실패')");
+				script.println("alert('글 삭제에 성공')");
 				script.println("location.href='./bbs.jsp'");
 				script.println("</script>");
 			}else{
 				script.println("<script>");
-				script.println("alert('글삭제 성공')");
+				script.println("alert('사용자를 확인하세요')");
 				script.println("location.href='./bbs.jsp'");
 				script.println("</script>");
 			}
 			
 		}
-		
+			
 	%>
 </body>
 </html>

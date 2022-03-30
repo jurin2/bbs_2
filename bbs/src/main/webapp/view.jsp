@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="bbs.BbsDAO" %><!-- 사용자 라이브러리 -->
-<%@ page import="bbs.Bbs" %><!-- 사용자 라이브러리 -->
-<%@ page import="java.io.PrintWriter" %> <!-- 자바에서 자바스크립트 사용 -->
-
-<% request.setCharacterEncoding("utf-8"); %><!-- 넘어온 한글자료 깨지지 않도록 -->    
+<%@ page import="java.io.PrintWriter" %>
+<%@ page import="bbs.BbsDAO" %>
+<%@ page import="bbs.Bbs" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,10 +13,8 @@
 
 </head>
 <body>
-
 	<%
-		PrintWriter script = response.getWriter();
-	
+		PrintWriter script=response.getWriter();
 		//로그인상태 확인
 		String userID = null;
 		if(session.getAttribute("userID") != null){
@@ -25,16 +22,17 @@
 		}
 		
 		//넘어온 bbsID를 초기화하고 request가 존재한다면 bbsID로 셋팅
-		int bbsID=0;
+		int bbsID = 0;
 		if(request.getParameter("bbsID") != null){
 			bbsID = Integer.parseInt(request.getParameter("bbsID"));
 		}
 		
-		//존재하지 않는 또는 잘돗된 접근처리
+		
+		//존재하지않는 또는 잘못된 접근처리
 		if(bbsID == 0 || userID == null){
 			script.println("<script>");
-			script.println("alert('존재하지 않는 글입니다')");
-			script.println("location.href='./bbs.jsp'");
+			script.println("alert('잘못된 접근입니다.')");
+			script.println("location.href='bbs.jsp'");
 			script.println("</script>");
 		}
 		
@@ -43,7 +41,6 @@
 		
 		
 	%>
-	
 	<section class="wrap">
 		<!-- 공통 영역  -->
 		<header>
@@ -89,11 +86,11 @@
 	
 		<!-- 페이지별 컨텐츠 영역 시작 -->
 		<section>
-			<!-- 로그인 양식 -->
+			<!-- 글읽기 양식 -->
 			<div class="container">
 				<div class="col-lg-12">
 					<div class="jumbotron" style="margin-top:20px;padding-top:30px">
-						<h2 style="text-align:center">게시판 글보기</h2>
+						<h2 style="text-align:center">게시판 글 보기</h2>		
 						<div>
 							<span>제목</span>
 							<span><%= bbs.getBbsTitle() %></span>
@@ -104,22 +101,21 @@
 							<span>작성자</span>
 							<span><%= bbs.getUserID() %></span>
 							<br>
-							<span>작성일</span>
+							<span>작성일자</span>
 							<span><%= bbs.getBbsDate() %></span>
 							<br>
-						</div>		
+						</div>
 					</div>
 					<div class="button-group">
-							<a href="./bbs.jsp" class="btn btn-success">목록</a>
-							<a href="./deleteAction.jsp?bbsID=<%= bbsID %>" class="btn btn-success">삭제</a>
-							<a href="./update.jsp?bbsID=<%= bbsID %>" class="btn btn-success">수정</a>
-						</div>
+						<a href="./bbs.jsp" class="btn btn-success">목록</a>
+						<a href="./deleteAction.jsp?bbsID=<%= bbsID %>" class="btn btn-success">삭제</a>
+						<a href="./update.jsp?bbsID=<%= bbsID %>" class="btn btn-success">수정</a>						
+					</div>
 				</div>
 			</div>
 		</section>
 		
 	</section>
-	
 	
 	
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.io.PrintWriter" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,10 +11,17 @@
 </head>
 <body>
 	<%
+		PrintWriter script = response.getWriter();
 		//로그인상태 확인
 		String userID = null;
 		if(session.getAttribute("userID") != null){
 			userID=(String)session.getAttribute("userID");
+		}
+		if(userID == null){
+			script.println("<script>");
+			script.println("alert('로그인후 이용 가능합니다.')");
+			script.println("location.href='./login.jsp'");
+			script.println("</script>");
 		}
 	%>
 	<section class="wrap">
